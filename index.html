@@ -18,39 +18,49 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
    
-    <div class="container-fluid ">
+    <div class="container-fluid " >
         <div class="row">
             <div class="col-md-4"></div>
             <div  class="col-md-4 p-4">
-                <img src="./all-weather.gif"class="rounded img-fluid w-100" alt="">
-             <h1 class="text-center text-wrap text-fluid bg-warning rounded  m-3">Weather Updates</h1>
-
+                <img src="./all-weather.gif "class="rounded d-flex img-fluid w-100" alt="">
+             <h1 class="text-center text-flex text-wrap text-fluid bg-warning rounded  m-3">Weather Updates</h1>
              <form class="m-4  " >
                 <p><span style="color: white;  ">city name</span></p>
-                <input id="inputweather" type="text"  placeholder="Enter your city!!" class="form-control p-3 mb-4 " >
+               <input  id="inputweather" type="text" class="form-control placeholder-wave border outline-danger" placeholder="Enter your city!"  >
             </form>
-              <div class="d-flex mx-5"> <input onclick="search()" type="button" class=" btn btn-outline-warning ms-5 " value="Submit"></div>
-              <div class="d-flex mx-5 mt-2 ">   <input onclick="refresh()" type="button" class=" btn btn-outline-danger ms-5  " value="Refresh"></div>
+             <div class="d-flex justify-content-center mb-2">  <input onclick="search()" type="button" class=" btn btn-outline-warning ms-3 " value="Submit"></div> 
+             <div class="d-flex justify-content-center"> <input onclick="refresh()" type="button" class=" btn btn-outline-danger ms-3 " value="Refresh" ></div> 
+
              
              </div>
             <div  class="col-md-4"></div>
 
               <div class="col-md-3"></div>
               <div id="result" class="col-md-6"></div>
-              <div class="col-md-3"></div>
+              <div  class="col-md-3"></div>
 
     </div>
     </div>
+
+    
+    
        
 </body>
 <script>
    const search=async ()=>{
     let weather = inputweather.value
     console.log(weather);
+
    
      if(weather){
         const response=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${weather}&APPID=8fc554123b0199e12129b5dcd838e602`)
          response.json().then((data)=>{console.log(data)
+
+
+           if(response.status>=200&&response.status<300){
+            console.log(response.status);
+            
+            
         //country
             let cname=data.name
             console.log(cname);
@@ -61,10 +71,13 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         //clouds
 
-      let cld=data.weather.map((item)=>item.main).forEach((ds)=>{console.log(ds);})
+      let cld=data.weather.map((item)=>item.main)
+      console.log(cld);
+      
      
 
-      let cldw=data.weather.map((item)=>item.description).forEach((dss)=>{console.log(dss);})
+      let cldw=data.weather.map((item)=>item.description)
+      console.log(cldw);
      
   
 
@@ -72,6 +85,17 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
   //  original temp
            let tempr=data.main.temp
            console.log(parseInt(tempr-273));
+           if(parseInt(tempr-273)<0){
+            alert("it's too cool outside")
+           }
+           else
+           if(parseInt(tempr-273)>30){
+            alert("It's hot outside")
+           }
+           else
+           if(parseInt(tempr-273)>35){
+            alert("it's too hot outside")
+           }
 
 ///feels like
           let feelslike=data.main.feels_like
@@ -91,7 +115,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
         console.log(press);
 
 
-
 //wind
      let wind=data.wind.speed
      console.log(wind);
@@ -103,45 +126,55 @@ crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         
         result.innerHTML=`
-        <div class="card text-bg-warning mb-3" >
-  <div class="card-body bg-secondary">
-    <h1 class="card-title bg-dark text-light text-center">Current Weather</h1>
-    <ul class="bg-light list-group list-group-flush text-center">
+        <div class="card bg-outline-warning text-bg-warning mb-3 rounded-2" >
+  <div class="card-body bg-dark rounded-5">
+    <h1 class="card-title bg-warning text-dark text-center rounded-5">Current Weather</h1>
+    <ul class="text-light list-group list-group-flush text-center">
     <h3>${cname},${cntryid}</h3>
-    <h1><i class="fa-solid fa-temperature-three-quarters"></i> ${parseInt(tempr-273)}°C</h1> 
+    <h1 class="m-4"><i class="fa-solid fa-temperature-three-quarters"></i> ${parseInt(tempr-273)}°C<h4>${cld},${cldw}</h4></h1> 
     <h4>Feels Like:${parseInt(feelslike-273)}°C</h4>
 
     <h4><i class="fa-solid fa-temperature-three-quarters"></i> mintemp:${parseInt(mintemp-273)}°C</h4>
     <h4><i class="fa-solid fa-temperature-three-quarters"></i> maxtemp:${parseInt(maxtemp-273)}°C</h4>
     <h4>Pressure:${press}hPa</h4>
-    <h4><i class="fa-solid fa-wind" style="color: black;"></i> Wind speed:${wind}kmh</h4>
+    <h4><i class="fa-solid fa-wind"></i> Wind speed:${wind}kmh</h4>
     <h4><i class="fa-solid fa-droplet"></i> Humidity:${humid}%</h4>
   </ul>
   </div>
 </div>
-
-
-
         `
         
         
         
         
+        
 
+      
 
+    
+ 
+}
+else{
+    alert('Currently not available to your place🥲🥲🥲.Please type your nearest City')
+    refresh()
+ }
 
-        })
+})
           
-          
+    
 
      }
      else{
         alert("sorry you didn't enter any value")
+        
      }
-
+    
     }
-      function refresh(){
-        location.reload();
-      }    
+
+
+function refresh(){
+    location.reload();
+}
+    
 </script>
 </html>

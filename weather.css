@@ -1,12 +1,21 @@
- .container-fluid{
-    background-image: url(./back4.gif) ; 
+
+
+.container-fluid{
+   margin-bottom: 0;
     background-size: 100%;
-    background-repeat: no-repeat ; 
+    background-repeat: no-repeat ;
+    background-position-x: center;
+    background-image: url(./back4.gif);
+    background-size: cover;
+    width: 100%;
+   display: grid;
+   scroll-behavior: smooth;
+
     
  } 
-/* .btn .btn{
-    align-items: center;
-} */
+.btn .btn{
+   display: inline;
+} 
 .text{
     text-wrap: nowrap;
 }
